@@ -1,0 +1,103 @@
+#!/bin/sh
+alias echoerr='>&2 echo'
+
+display_usage() {
+        echo "Convert images in different file types"
+        echo -e "\nUsage:\n./converter [inFile] [outFile] [filetype(jpeg|jpg|png|tiff|pdf)]\n"
+}
+
+# if less than two arguments supplied, display usage
+if [  $# -le 1 ]
+then
+        display_usage
+        exit 1
+fi
+
+# check whether user had supplied -h or --help . If yes display usage
+if [[ $# == "--help" || $# == "-h" ]]
+then
+        display_usage
+        exit 0
+fi
+
+if [ $# -ge 3 ]
+then
+  TYPE_OUTFILE=$3
+else
+  TYPE_OUTFILE="jpeg"
+fi
+
+DIR=$(pwd)
+
+TYPE_INFILE=$(identify $1 | head -n 1 |  awk '{ print $2 }')
+
+conversion_error() {
+    echoerr "Error: Cannot convert $TYPE_INFILE to $TYPE_OUTFILE"
+    exit 1
+}
+
+case "$TYPE_INFILE" in
+    JPEG)
+      if [[ $TYPE_OUTFILE != "jpeg" && $TYPE_OUTFILE != "jpg"  && $TYPE_OUTFILE != "png" ]]
+      then
+        conversion_error
+      fi
+      ;;
+
+    PNG)
+      if [[ $TYPE_OUTFILE != "jpeg" && $TYPE_OUTFILE != "jpg"  && $TYPE_OUTFILE != "png" ]]
+      then
+        conversion_error
+      fi
+      ;;
+
+    BMP)
+      if [[ $TYPE_OUTFILE != "jpeg" && $TYPE_OUTFILE != "jpg"  && $TYPE_OUTFILE != "png" ]]
+      then
+        conversion_error
+      fi
+      ;;
+
+    PDF)
+      if [[ $TYPE_OUTFILE != "pdf" ]]
+      then
+        conversion_error
+      fi
+      ;;
+
+    TIFF)
+      if [[ $TYPE_OUTFILE != "pdf" ]]
+      then
+        conversion_error
+      fi
+      ;;
+
+    *)
+      conversion_error
+esac
+
+OUTFILE=""
+PARAMS=""
+
+case "$TYPE_OUTFILE" in
+    jpeg|jpg)
+      OUTFILE="/tmp/out.jpg"
+      ;;
+
+    png)
+      OUTFILE="/tmp/out.png"
+      ;;
+
+    pdf)
+      OUTFILE="/tmp/out.pdf"
+      PARAMS="-density 150 -page A4"
+      ;;
+
+    *)
+      echoerr "Error: Unknown filetype '$TYPE_OUTFILE'. Valid are: jpeg, jpg, pdf"
+      exit 1
+esac
+
+touch $OUTFILE && chown imagemagick:imagemagick $OUTFILE
+su - imagemagick -c "convert -strip ${PARAMS} $1 ${OUTFILE}"
+cat $OUTFILE > $2
