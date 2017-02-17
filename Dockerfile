@@ -23,18 +23,15 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 		&& exit 0 ; exit 1
 
 # Compile & install ImageMagick
-	RUN apk add --update --no-cache zlib libpng libjpeg-turbo freetype fontconfig perl ghostscript libwebp libtool tiff lcms2 libxml2 \
+	RUN apk update \
+        && apk upgrade \
+        && apk add --update --no-cache zlib libpng libjpeg-turbo freetype fontconfig perl ghostscript libwebp libtool tiff lcms2 libxml2 \
 		&& apk add --update --no-cache --virtual .temporary build-base curl xz zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev fontconfig-dev perl-dev ghostscript-dev libwebp-dev tiff-dev lcms2-dev libxml2-dev \
 		&& mkdir -p /tmp/ImageMagick \
 		&& cd /tmp/ImageMagick \
 		&& curl -fsSL -o ImageMagick.tar.gz https://www.imagemagick.org/download/ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz \
 		&& tar xvzf ImageMagick.tar.gz \
 		&& cd ImageMagick-${IMAGEMAGICK_VERSION} \
-		&& export CFLAGS="${CFLAGS}" \
-		&& export CXXFLAGS="${CXXFLAGS}" \
-		&& export CPPFLAGS="${CPPFLAGS}" \
-		&& export LDFLAGS="${LDFLAGS}" \
-		&& export MAKEFLAGS="${MAKEFLAGS}" \
 		&& ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info --without-threads --without-x --with-tiff --with-gslib --with-lcms --with-gs-font-dir=/usr/share/fonts/Type1 --with-modules --with-xml --with-fontconfig --with-freetype --with-jpeg --with-png \
 		&& make -j1 \
 		&& make install \
