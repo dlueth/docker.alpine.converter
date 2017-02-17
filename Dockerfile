@@ -23,10 +23,9 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 		&& exit 0 ; exit 1
 
 # Compile & install ImageMagick
-	RUN apk add --update --no-cache --virtual .temporary build-base curl xz \
-		&& apk add --update --no-cache zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev fontconfig-dev perl-dev ghostscript-dev libwebp-dev libtool tiff-dev lcms2-dev libxml2-dev
-
-	RUN mkdir -p /tmp/ImageMagick \
+	RUN apk add --update --no-cache zlib libpng libjpeg-turbo freetype fontconfig perl ghostscript libwebp libtool tiff lcms2 libxml2 \
+		&& apk add --update --no-cache --virtual .temporary build-base curl xz zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev fontconfig-dev perl-dev ghostscript-dev libwebp-dev tiff-dev lcms2-dev libxml2-dev \
+		&& mkdir -p /tmp/ImageMagick \
 		&& cd /tmp/ImageMagick \
 		&& curl -fsSL -o ImageMagick.tar.gz https://www.imagemagick.org/download/ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz \
 		&& tar xvzf ImageMagick.tar.gz \
@@ -40,10 +39,8 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 		&& make -j1 \
 		&& make install \
 		&& ldconfig /usr/local/lib \
-		&& convert -version
-
-# Cleanup
-	RUN apk del .temporary \
+		&& convert -version \
+		&& apk del .temporary \
 		&& rm -rf /var/cache/apk/* /tmp/*
 
 # Settings
