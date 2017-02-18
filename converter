@@ -2,7 +2,7 @@
 
 OUTFILE_PATH="/tmp/out"
 OUTFILE_TYPE=""
-CONVERSION_PARAMS="-resize: 100%"
+CONVERSION_PARAMS="-resize 100%"
 
 alias echoerr='>&2 echo'
 
