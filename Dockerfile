@@ -31,7 +31,7 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 		# Install ImageMagick
 		&& mkdir -p /tmp/ImageMagick \
 		&& cd /tmp/ImageMagick \
-		&& curl -fsSL -o ImageMagick.tar.gz https://www.imagemagick.org/download/ImageMagick-${IMAGEMAGICK_VERSION}.tar.gz \
+		&& curl -fsSL -o ImageMagick.tar.gz https://github.com/ImageMagick/ImageMagick/archive/${IMAGEMAGICK_VERSION}.tar.gz \
 		&& tar xvzf ImageMagick.tar.gz \
 		&& cd ImageMagick-${IMAGEMAGICK_VERSION} \
 		&& ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info --without-threads --without-x --with-tiff --with-gslib --with-lcms --with-gs-font-dir=/usr/share/fonts/Type1 --with-modules --with-xml --with-fontconfig --with-freetype --with-jpeg --with-png \
