@@ -1,7 +1,5 @@
 FROM alpine:3.5
 
-WORKDIR /converter
-
 LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
       org.label-schema.docker.dockerfile="/Dockerfile" \
       org.label-schema.name="Qoopido Docker Converter (Alpine)" \
@@ -16,7 +14,10 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 	ENV LDFLAGS "-Wl,--as-needed"
 
 # Copy files & directories
-	COPY converter /converter/
+	COPY entrypoint.sh /entrypoint.sh
+
+# Alter permissions
+	RUN chmod +x /entrypoint.sh
 
 # create user and group
 	RUN adduser -s /bin/sh -g imagemagick -D imagemagick \
@@ -43,4 +44,4 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 		&& rm -rf /var/cache/apk/* /tmp/*
 
 # Settings
-	ENTRYPOINT ["./converter"]
+	ENTRYPOINT [ "/entrypoint.sh" ]
