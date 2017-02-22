@@ -7,11 +7,11 @@ fi
 
 OUTFILE_PATH="/tmp/out"
 CONVERSION_PARAMS="-strip -quiet"
-INFILE_TYPE=$(su - imagemagick -c "identify -quiet -format '%m' $1")
+INFILE_TYPE=$(su - imagemagick -c "identify -quiet ${1} | head -n 1 | awk '{ print \$2 }'")
 INFILE_PAGES=$(su - imagemagick -c "identify -quiet -format '%n' $1")
 
 case "$INFILE_TYPE" in
-	JPEG|JPG|PNG)
+	JPEG|JPG|PNG|BMP|BMP2|BMP3)
 		OUTFILE_PATH="${OUTFILE_PATH}.jpg"
 		CONVERSION_PARAMS="${CONVERSION_PARAMS} -resize 100% -interlace Plane -set sampling-factor: 4:2:0 -type Grayscale -quality 75%"
 		;;
@@ -26,6 +26,8 @@ case "$INFILE_TYPE" in
 		fi
 		;;
 	*)
+		echo ">>> ${1} <<<"
+		echo ">>> ${INFILE_TYPE} <<<"
 		exit 1
 esac
 
