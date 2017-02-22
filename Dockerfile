@@ -47,4 +47,4 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 		&& rm -rf /var/cache/apk/* /tmp/*
 
 # Settings
-	#ENTRYPOINT [ "/entrypoint.sh" ]
+	ENTRYPOINT [ "/entrypoint.sh" ]
