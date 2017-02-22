@@ -13,7 +13,7 @@ INFILE_PAGES=$(su - imagemagick -c "identify -quiet -format '%n' $1")
 case "$INFILE_TYPE" in
 	JPEG|JPG|PNG)
 		OUTFILE_PATH="${OUTFILE_PATH}.jpg"
-		CONVERSION_PARAMS="${CONVERSION_PARAMS} -resize 100% -interlace Plane -sampling-factor: 4:2:0 -type Grayscale -quality 75%"
+		CONVERSION_PARAMS="${CONVERSION_PARAMS} -resize 100% -interlace Plane -set sampling-factor: 4:2:0 -type Grayscale -quality 75%"
 		;;
 	PBM|PDF|TIFF)
 		if [ "$INFILE_PAGES" -gt 1 ]
@@ -22,7 +22,7 @@ case "$INFILE_TYPE" in
 			CONVERSION_PARAMS="${CONVERSION_PARAMS} -density 200 -page A4 -compress Zip -type Grayscale -quality 75"
 		else
 			OUTFILE_PATH="${OUTFILE_PATH}.jpg"
-			CONVERSION_PARAMS="${CONVERSION_PARAMS} -density 200 -resize 100% -interlace Plane -sampling-factor: 4:2:0 -type Grayscale -quality 75%"
+			CONVERSION_PARAMS="${CONVERSION_PARAMS} -density 200 -resize 100% -interlace Plane -set sampling-factor: 4:2:0 -type Grayscale -quality 75%"
 		fi
 		;;
 	*)
