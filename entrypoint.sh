@@ -26,8 +26,6 @@ case "$INFILE_TYPE" in
 		fi
 		;;
 	*)
-		echo ">>> ${1} <<<"
-		echo ">>> ${INFILE_TYPE} <<<"
 		exit 1
 esac
 
