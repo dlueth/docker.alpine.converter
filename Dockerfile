@@ -24,10 +24,12 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
 		&& exit 0 ; exit 1
 
 # Compile & install ImageMagick
+	# glib
+	# glib-dev
 	RUN apk update \
         && apk upgrade \
-        && apk add --update --no-cache libtool libgomp ghostscript-fonts zlib libpng libjpeg-turbo freetype fontconfig perl ghostscript libwebp tiff lcms2 libxml2 fftw glib \
-        && apk add --update --no-cache --virtual .temporary build-base curl xz zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev fontconfig-dev perl-dev ghostscript-dev libwebp-dev tiff-dev lcms2-dev libxml2-dev fftw-dev glib-dev \
+        && apk add --update --no-cache libtool libgomp ghostscript-fonts zlib libpng libjpeg-turbo freetype fontconfig perl ghostscript libwebp tiff lcms2 libxml2 fftw \
+        && apk add --update --no-cache --virtual .temporary build-base curl xz zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev fontconfig-dev perl-dev ghostscript-dev libwebp-dev tiff-dev lcms2-dev libxml2-dev fftw-dev \
         # Install ImageMagick
         && mkdir -p /tmp/ImageMagick \
         && curl -fsSL -o /tmp/ImageMagick/ImageMagick.tar.gz https://gitlab.com/ImageMagick/ImageMagick/repository/archive.tar.gz?ref=${IMAGEMAGICK_VERSION} \
