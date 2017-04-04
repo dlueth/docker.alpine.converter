@@ -7,7 +7,7 @@ LABEL maintainer="Dirk Lüth <info@qoopido.com>" \
       org.label-schema.vcs-url="https://github.com/dlueth/docker.alpine.converter.git"
 
 # Set environment variables
-	ENV IMAGEMAGICK_VERSION "7.0.5-0"
+	ENV IMAGEMAGICK_VERSION "7.0.5-4"
 	ENV CFLAGS "-Os -fomit-frame-pointer -fPIE -fstack-protector-all -D_FORTIFY_SOURCE=2"
 	ENV CPPFLAGS "${CFLAGS}"
 	ENV CXXFLAGS "${CFLAGS}"
